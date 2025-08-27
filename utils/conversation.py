@@ -3,7 +3,7 @@ import os
 
 def load_candidates():
     if not os.path.exists("candidates.json"):
-        return []  t
+        return []  
     
     with open("candidates.json", "r") as f:
         try:
