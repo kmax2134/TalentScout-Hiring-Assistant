@@ -7,12 +7,12 @@ from utils.openai_utils import call_llm
 from utils.conversation import save_candidate
 from prompts import GREETING_PROMPT, TECH_QUESTION_PROMPT
 
-# --- Streamlit Page Config ---
+# Streamlit Page 
 st.set_page_config(page_title="TalentScout Hiring Assistant", layout="centered")
-st.title("🤖 TalentScout Hiring Assistant")
-st.write("Welcome! I’ll help you with the initial screening process for tech roles.")
+st.title("TalentScout Hiring Assistant")
+st.write("Welcome! I'll help you with the initial screening process for tech roles.")
 
-# --- Session State ---
+# Session State 
 if "conversation" not in st.session_state:
     st.session_state.conversation = []
 if "candidate" not in st.session_state:
@@ -22,17 +22,17 @@ if "phase" not in st.session_state:
 if "current_question" not in st.session_state:
     st.session_state.current_question = None
 if "asked_questions" not in st.session_state:
-    st.session_state.asked_questions = []  # track all questions to prevent duplicates
+    st.session_state.asked_questions = []  
 
 
-# --- Greeting Phase ---
+# Greeting Phase 
 if st.session_state.phase == "greeting":
     bot_msg = call_llm(GREETING_PROMPT)
     st.chat_message("assistant").write(bot_msg)
     st.session_state.phase = "info"
 
 
-# --- Info Collection Phase ---
+# Info Collection Phase 
 if st.session_state.phase == "info":
     with st.form("candidate_form"):
         col1, col2 = st.columns(2)
@@ -61,11 +61,11 @@ if st.session_state.phase == "info":
             "Current Location": location,
             "Tech Stack": tech_stack,
         }
-        # 🔒 Save with privacy masking
+        # Save with privacy masking
         save_candidate(st.session_state.candidate)
 
         if tech_stack.strip():
-            # 🔥 Reset for new set of questions
+            # Reset for new set of questions
             st.session_state.conversation = []
             st.session_state.asked_questions = []
 
@@ -84,21 +84,21 @@ if st.session_state.phase == "info":
         st.rerun()
 
 
-# --- Questions Phase ---
+#  Questions Phase 
 if st.session_state.phase == "questions":
-    # Display conversation so far
+    
     for role, msg in st.session_state.conversation:
         st.chat_message("assistant" if role == "bot" else "user").write(msg)
 
     # Candidate reply
     user_input = st.chat_input("Your response:")
     if user_input:
-        # 🔹 Exit detection
+        
         exit_keywords = ["exit", "quit", "bye", "thank you"]
         if any(word in user_input.lower() for word in exit_keywords):
             st.session_state.conversation.append(("user", user_input))
             st.session_state.conversation.append(
-                ("bot", "🙏 Thank you for your time! Your details have been securely recorded. Our team will contact you soon.")
+                ("bot", " Thank you for your time! Your details have been securely recorded. Our team will contact you soon.")
             )
             st.session_state.phase = "end"
             st.rerun()
@@ -118,7 +118,7 @@ if st.session_state.phase == "questions":
             st.session_state.conversation.append(("bot", bot_reply))
             st.rerun()
 
-    # 🔥 Add "Ask New Questions" button
+    #  "Ask New Questions" 
     if st.button("Ask New Questions"):
         st.session_state.conversation = []
 
@@ -137,6 +137,6 @@ if st.session_state.phase == "questions":
         st.rerun()
 
 
-# --- End Phase ---
+#  End Phase 
 if st.session_state.phase == "end":
-    st.success("✅ Interview ended. Thank you for using TalentScout Hiring Assistant.")
+    st.success("Interview ended. Thank you for using TalentScout Hiring Assistant.")

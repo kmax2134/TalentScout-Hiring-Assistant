@@ -3,7 +3,7 @@ import openai
 import os
 from dotenv import load_dotenv
 
-# Load environment variables from .env
+# Load environment 
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
 
@@ -31,7 +31,7 @@ def call_llm(prompt, context="", model="gpt-4o-mini", mode="default", asked_ques
     else:
         system_prompt = "You are TalentScout, an AI hiring assistant."
 
-    # If we have asked questions, tell model to avoid them
+   
     if asked_questions:
         avoid_text = "\nPreviously asked questions (DO NOT repeat):\n" + "\n".join(asked_questions)
         prompt = prompt + avoid_text

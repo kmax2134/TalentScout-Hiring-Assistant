@@ -36,7 +36,7 @@ def save_candidate(candidate):
     """Append a new candidate to file with masked email/phone."""
     candidates = load_candidates()
 
-    # 🔒 Mask sensitive info
+    #  Mask sensitive info
     candidate["Email Address"] = mask_email(candidate.get("Email Address", ""))
     candidate["Phone Number"] = mask_phone(candidate.get("Phone Number", ""))
 

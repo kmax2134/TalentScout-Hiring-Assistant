@@ -16,7 +16,7 @@ INFO_COLLECTION_PROMPT = """Ask the candidate for their details one by one:
 """
 
 TECH_QUESTION_PROMPT = """You are TalentScout. Based on the declared tech stack: {tech_stack},
-generate 3–5 technical questions to test candidate proficiency.
+generate 3-5 technical questions to test candidate proficiency.
 Rules:
 - Questions MUST relate only to the provided stack
 - Vary difficulty (basic, intermediate, advanced)
